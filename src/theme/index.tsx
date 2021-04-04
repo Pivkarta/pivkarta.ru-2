@@ -14,6 +14,14 @@ const breakpoints = {
  */
 const colors = {
   primary: '#333',
+  a: {
+    default: '#2196f3',
+    hover: '#0d47a1',
+  },
+}
+
+const background = {
+  default: '#dcdcdc',
 }
 
 /**
@@ -21,6 +29,7 @@ const colors = {
  */
 const theme = {
   colors,
+  background,
   breakpoints,
 }
 

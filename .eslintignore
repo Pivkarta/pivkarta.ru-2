@@ -3,6 +3,8 @@
 **/.next/*
 **/dist/*
 **/coverage/*
+src/modules/old/
+src/components_old/
 **/.storybook/*
 **/storybook-static/*
 /.vscode

@@ -2,6 +2,7 @@ import React from 'react'
 import { NextComponentType, NextPageContext } from 'next'
 import { ApolloClient, NormalizedCacheObject } from '@apollo/client'
 import { AppContext, AppInitialProps } from 'next/app'
+import { CityFragment } from 'src/modules/gql/generated'
 
 /**
  * API apollo-client
@@ -16,6 +17,11 @@ export interface NextPageContextCustom extends NextPageContext {
    * API apollo-client
    */
   apolloClient: ApolloClientNormolized
+
+  /**
+   * Города
+   */
+  cities: CityFragment[]
 }
 
 export interface PageProps extends React.PropsWithChildren<{}> {

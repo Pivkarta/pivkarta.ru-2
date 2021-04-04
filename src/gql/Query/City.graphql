@@ -1,0 +1,40 @@
+query cities(
+  # $resourcesLimit: Int = 3
+  # $resourcesCoords: SearchCoordsType
+  # $resourcesCenter: InputCoordsType
+  $take: Int
+  $skip: Int
+  $where: CityWhereInput
+  $orderBy: CityOrderByInput
+) {
+  cities: cities(
+    # limit: $resourcesLimit
+    # coords: $resourcesCoords
+    # center: $resourcesCenter
+    # parent: 1296
+    first: $take
+    skip: $skip
+    where: $where
+    orderBy: $orderBy
+  ) {
+    ...city
+  }
+}
+
+fragment city on City {
+  id
+  pagetitle: name
+  # longtitle
+  alias
+  # uri
+  # coords {
+  lat
+  lng
+  #   zoom
+  # }
+  # image
+  # imageFormats {
+  #   marker_thumb
+  # }
+  # parent
+}

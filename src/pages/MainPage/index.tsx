@@ -1,26 +1,27 @@
+import React from 'react'
 import { NextSeo } from 'next-seo'
-
 import { Page } from '../_App/interfaces'
 
-export const MainPage: Page = () => {
+import { MainPageProps } from './interfaces'
+
+export const MainPage: Page<MainPageProps> = (): JSX.Element => {
   return (
     <>
-      <NextSeo title="Main page" description="Main page description" />
-
-      <div>Main Page</div>
+      <NextSeo
+        title="Городские и общественные бани"
+        description="Все Городские и общественные бани"
+      />
     </>
   )
 }
 
-/**
- * Example.
- * Commit this if not needed.
- *
- * Get data before render page
- */
-MainPage.getInitialProps = () => {
+MainPage.getInitialProps = async (appContext) => {
+  const { cities } = appContext
+
+  const moscow = cities.find((n) => n.pagetitle === 'Москва')
+
   return {
-    statusCode: 200,
+    city: moscow,
   }
 }
 

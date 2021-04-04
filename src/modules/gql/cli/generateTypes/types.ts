@@ -32,6 +32,7 @@ const globPromisify = util.promisify(glob)
 const prependText = [
   '/* eslint-disable */',
   '\n',
+  '// @ts-nocheck\n',
   '\n',
   '/** \n',
   '* ФАЙЛ ГЕНЕРИРУЕТСЯ АВТОМАТИЧЕСКИ, ПРАВИТЬ ЕГО НЕ НУЖНО \n',

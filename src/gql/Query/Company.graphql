@@ -1,0 +1,66 @@
+query companies(
+  $where: PlaceWhereInput
+  $orderBy: PlaceOrderByInput
+  $first: Int
+  $skip: Int
+) {
+  companies: places(
+    where: $where
+    orderBy: $orderBy
+    first: $first
+    skip: $skip
+  ) {
+    ...company
+  }
+}
+
+query companiesConnection(
+  $where: PlaceWhereInput
+  $orderBy: PlaceOrderByInput
+  $first: Int
+  $skip: Int
+  $center: CoordsInput
+  $type: [PlaceType!]
+) {
+  companiesConnection: mapPlacesConnection(
+    where: $where
+    orderBy: $orderBy
+    first: $first
+    skip: $skip
+    center: $center
+    type: $type
+  ) {
+    aggregate {
+      count
+    }
+    edges {
+      node {
+        ...company
+      }
+    }
+  }
+}
+
+fragment company on Place {
+  id
+  minPrice
+  maxPrice
+  uri
+  createdAt
+  updatedAt
+  name
+  description
+  address
+  lat
+  lng
+  website
+  phone
+  image
+  gallery
+  schedules
+  content
+  metro
+  phone
+  site: website
+  workTime: work_hours
+}

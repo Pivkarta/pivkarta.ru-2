@@ -1,0 +1,27 @@
+query me {
+  me {
+    id
+  }
+}
+
+query userByUsername($where: UserWhereUniqueInput!) {
+  object: user(where: $where) {
+    ...user
+  }
+}
+
+fragment user on User {
+  ...UserNoNesting
+}
+
+fragment UserNoNesting on User {
+  id
+  user_id
+  username
+  fullname
+  email
+  image
+  etherwallet
+  created_at
+  sudo
+}

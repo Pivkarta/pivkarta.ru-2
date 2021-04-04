@@ -1,0 +1,49 @@
+query commentsConnection(
+  $first: Int
+  $skip: Int
+  $commentGetAuthor: Boolean!
+  $orderBy: CommentOrderByInput
+  $where: CommentWhereInput
+) {
+  commentsConnection(
+    first: $first
+    skip: $skip
+    orderBy: $orderBy
+    where: $where
+  ) {
+    aggregate {
+      count
+    }
+    edges {
+      node {
+        ...comment
+      }
+    }
+  }
+}
+
+fragment comment on Comment {
+  ...commentFields
+  CreatedBy: created_by @include(if: $commentGetAuthor) {
+    id
+    user_id
+    username
+    first_name
+    middle_name
+    last_name
+    image
+    email
+  }
+}
+
+fragment commentFields on Comment {
+  id
+  comment_id
+  object_id
+  type_id
+  createdAt
+  text: editor_content
+  is_checked
+  name
+  parent
+}

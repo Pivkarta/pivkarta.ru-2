@@ -10,7 +10,7 @@ const webpack = (config, options) => {
    */
   config.plugins.push(
     new MomentLocalesPlugin({
-      localesToKeep: ['ru', 'en'],
+      localesToKeep: ['ru'],
     })
   )
 

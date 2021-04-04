@@ -15,7 +15,17 @@ jest.mock('next/router', () => ({
 
 describe('MainPage', () => {
   it('Render MainPage', () => {
-    const tree = appRender(<MainPage />)
+    const tree = appRender(
+      <MainPage
+        city={{
+          id: 'id',
+          pagetitle: 'Москва',
+          alias: 'moscow',
+          lat: 55.752898,
+          lng: 37.621908,
+        }}
+      />
+    )
 
     // eslint-disable-next-line no-console
     // console.log('MainPage tree', tree.container.outerHTML);

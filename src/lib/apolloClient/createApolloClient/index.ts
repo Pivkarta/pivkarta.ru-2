@@ -212,6 +212,18 @@ function createApolloClient({ withWs, appContext }: createApolloClientProps) {
        * к примеру, объединение данных при выполнении подгрузки.
        */
       typePolicies,
+
+      // https://www.apollographql.com/docs/react/data/fragments/#defining-possibletypes-manually
+      possibleTypes: {
+        ResourceInterface: [
+          'Company',
+          'City',
+          'Rating',
+          'Topic',
+          'Review',
+          'Resource',
+        ],
+      },
     }),
   })
 
