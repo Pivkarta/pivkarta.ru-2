@@ -18,7 +18,7 @@ export const MainPage: Page<MainPageProps> = (): JSX.Element => {
 MainPage.getInitialProps = async (appContext) => {
   const { cities } = appContext
 
-  const moscow = cities.find((n) => n.pagetitle === 'Москва')
+  const moscow = cities.find((n) => n.name === 'Москва')
 
   return {
     city: moscow,

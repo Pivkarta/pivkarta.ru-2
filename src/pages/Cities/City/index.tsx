@@ -79,8 +79,8 @@ const CityPage: Page<CityPageProps> = ({ city, ...other }) => {
     return (
       <>
         <NextSeo
-          title={`Общественные бани в городе "${city.pagetitle}"`}
-          description={`Все общественные бани и сауны в городе "${city.pagetitle}"`}
+          title={`Общественные бани в городе "${city.name}"`}
+          description={`Все общественные бани и сауны в городе "${city.name}"`}
         />
         <CityPageView
           city={city}

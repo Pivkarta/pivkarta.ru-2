@@ -23,8 +23,7 @@ query cities(
 
 fragment city on City {
   id
-  pagetitle: name
-  # longtitle
+  name
   alias
   # uri
   # coords {

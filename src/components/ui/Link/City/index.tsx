@@ -9,11 +9,11 @@ import { CityLinkProps } from './interfaces'
 const CityLink: React.FC<CityLinkProps> = ({ city, children, ...other }) => {
   return useMemo(() => {
     return (
-      <Link href={`/${city.alias}`} title={city.pagetitle} {...other}>
-        {children || city.pagetitle}
+      <Link href={`/${city.alias}`} title={city.name} {...other}>
+        {children || city.name}
       </Link>
     )
-  }, [city.alias, city.pagetitle, other, children])
+  }, [city.alias, city.name, other, children])
 }
 
 export default CityLink

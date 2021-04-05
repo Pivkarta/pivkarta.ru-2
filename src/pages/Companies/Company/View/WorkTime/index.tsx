@@ -10,7 +10,7 @@ const CompanyWorkTime: React.FC<CompanyWorkTimeProps> = ({
   ...other
 }) => {
   return useMemo(() => {
-    const workTime = company.workTime
+    const workTime = company.work_hours
 
     const schedulesContent =
       (company.schedules && (
@@ -58,7 +58,7 @@ const CompanyWorkTime: React.FC<CompanyWorkTimeProps> = ({
         </div>
       </>
     )
-  }, [company.schedules, company.workTime, other])
+  }, [company.schedules, company.work_hours, other])
 }
 
 export default CompanyWorkTime

@@ -42,7 +42,7 @@ const MainMenu: React.FC = () => {
         return
       }
 
-      const { id, pagetitle: name, lat, lng, alias: uri } = city
+      const { id, name, lat, lng, alias: uri } = city
 
       if (!lat || !lng) {
         return
@@ -74,7 +74,7 @@ const MainMenu: React.FC = () => {
             className="dropdown-toggle"
             data-toggle="dropdown"
           >
-            {mainCity.pagetitle} <i className="fa fa-angle-down"></i>
+            {mainCity.name} <i className="fa fa-angle-down"></i>
           </a>
           <ul
             className="dropdown-menu"

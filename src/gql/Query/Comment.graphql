@@ -42,7 +42,7 @@ fragment commentFields on Comment {
   object_id
   type_id
   createdAt
-  text: editor_content
+  editor_content
   is_checked
   name
   parent

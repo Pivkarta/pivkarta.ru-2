@@ -16,7 +16,7 @@ const Comment: React.FC<CommentProps> = ({
   ...other
 }) => {
   const content = useMemo(() => {
-    if (!comment.text) {
+    if (!comment.editor_content) {
       return null
     }
 
@@ -41,8 +41,8 @@ const Comment: React.FC<CommentProps> = ({
     //   )
     // }
 
-    return <Editor editorKey="comment" value={comment.text} />
-  }, [comment.text])
+    return <Editor editorKey="comment" value={comment.editor_content} />
+  }, [comment.editor_content])
 
   const createdon = useMemo(() => {
     const createdon =
