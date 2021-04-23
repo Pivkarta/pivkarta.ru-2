@@ -10,6 +10,7 @@ export const MainMenuStyled = styled.div<MainMenuStyledProps>`
   background-repeat: no-repeat;
   border-bottom: 1px solid #178acc;
   box-shadow: 0 1px 10px rgba(0, 0, 0, 0.1);
+  padding: 5px;
 
   a {
     color: white;

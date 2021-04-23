@@ -11,7 +11,8 @@ import Link from 'next/link'
 import { AppContext } from 'src/pages/_App/Context'
 import { MainMenuStyled } from './styles'
 
-import logo from './img/bath-logo.png'
+//import logo from './img/bath-logo.png'
+import logo from './img/pivkarta-logo.png'
 
 const MainMenu: React.FC = () => {
   const context = useContext(AppContext)
@@ -124,9 +125,9 @@ const MainMenu: React.FC = () => {
     return (
       <MainMenuStyled opened={opened}>
         <Link href={baseUrl}>
-          <a className="navbar-brand" title="Городские бани, главная страница">
-            <img src={logo} alt={'logo'} title="Городские бани" />
-            <span className="str">Городские бани</span>
+          <a className="navbar-brand" title="Пивная карта, главная страница">
+            <img src={logo} alt={'logo'} title="Пивная карта" />
+            <span className="str">Пивная карта</span>
           </a>
         </Link>
 
