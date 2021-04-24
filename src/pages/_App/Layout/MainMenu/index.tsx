@@ -141,7 +141,7 @@ const MainMenu: React.FC = () => {
 
         <ul id="navbar-main">
           <li className="last">
-            <Link href="/contacts.html">
+            <Link href="/contacts">
               <a title="Контакты">Контакты</a>
             </Link>
           </li>
