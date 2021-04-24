@@ -1,4 +1,5 @@
 import React from 'react'
+import { Page } from '../_App/interfaces'
 
 const СontactsPageView: Page = () => {
   return (
