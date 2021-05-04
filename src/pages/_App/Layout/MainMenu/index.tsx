@@ -64,25 +64,65 @@ const MainMenu: React.FC = () => {
       )
     })
 
-    const citiesOpened = false
+    //const citiesOpened = false
 
+    /**
+   * Открытие и закрытие городов в меню
+   */
+
+
+   const [citiesOpened, citiesOpenedSetter] = useState(false)
+
+  const toggleMenuCities = () => {
+    if(citiesOpened){
+      citiesOpenedSetter(false)
+    } else {
+      citiesOpenedSetter(true)
+    }
+  }
+
+console.log('citiesOpened:',citiesOpened)
+
+/*
+   useEffect(() => {
+    if (!citiesOpened) {
+      return
+    }
+
+    const closeCitiesEvent = () => {
+      citiesOpenedSetter(false)
+    }
+
+    window.document.addEventListener('click', closeCitiesEvent)
+
+    return () => {
+      window.document.removeEventListener('click', closeCitiesEvent)
+    }
+  }, [citiesOpened])
+
+*/
     return (
       (mainCity && citiesList && citiesList.length && (
         <li>
-          <a
-            href={`/city/${coordsUrl}`}
-            title="Бани в городах"
+          <button
+            //href={`/city/${coordsUrl}`}
+            onClick={toggleMenuCities}
+            title="Пивная карта по городам"
             className="dropdown-toggle"
-            data-toggle="dropdown"
+            data-toggle="dropdown"            
           >
             {mainCity.name} <i className="fa fa-angle-down"></i>
-          </a>
+          </button>
           <ul
-            className="dropdown-menu"
+            className="dropdown-menu"            
             style={{
-              display: citiesOpened ? 'block' : undefined,
+              display: citiesOpened ? 'block' : 'none',
               maxHeight: '70vh',
               overflow: 'auto',
+              position: 'absolute',
+              background: '#fff',
+              listStyle: 'none',
+              
             }}
           >
             {citiesList}
@@ -95,6 +135,14 @@ const MainMenu: React.FC = () => {
 
   // TODO Remove
   citiesList
+
+
+  
+
+
+
+
+
 
   const [opened, openedSetter] = useState(false)
 
@@ -131,6 +179,8 @@ const MainMenu: React.FC = () => {
           </a>
         </Link>
 
+        {citiesList}
+
         <div className="separator" />
 
         <button className="navbar-toggle" type="button" onClick={toggleMenu}>
@@ -150,5 +200,6 @@ const MainMenu: React.FC = () => {
     )
   }, [opened, toggleMenu])
 }
+
 
 export default MainMenu

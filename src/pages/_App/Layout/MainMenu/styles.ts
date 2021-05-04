@@ -3,6 +3,7 @@ import styled, { css } from 'styled-components'
 
 export type MainMenuStyledProps = {
   opened: boolean
+  
 }
 
 export const MainMenuStyled = styled.div<MainMenuStyledProps>`
@@ -58,6 +59,9 @@ export const MainMenuStyled = styled.div<MainMenuStyledProps>`
         `
       }
     }}
+
+
+   
 
     ${minWidth.sm(css`
       width: auto;
