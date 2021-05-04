@@ -3,7 +3,6 @@ import styled, { css } from 'styled-components'
 
 export type MainMenuStyledProps = {
   opened: boolean
-  
 }
 
 export const MainMenuStyled = styled.div<MainMenuStyledProps>`
@@ -41,6 +40,12 @@ export const MainMenuStyled = styled.div<MainMenuStyledProps>`
     }
   }
 
+  .dropdown-menu-box {
+    list-style: none;
+    margin-left: 50px;
+    margin-top: 7px;
+  }
+
   ul#navbar-main {
     margin: 0;
     padding: 0;
@@ -59,9 +64,6 @@ export const MainMenuStyled = styled.div<MainMenuStyledProps>`
         `
       }
     }}
-
-
-   
 
     ${minWidth.sm(css`
       width: auto;

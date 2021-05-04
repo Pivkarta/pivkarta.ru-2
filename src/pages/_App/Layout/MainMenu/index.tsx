@@ -33,8 +33,18 @@ const MainMenu: React.FC = () => {
 
   const baseUrl = '/'
 
+  /**
+   * Открытие и закрытие городов в меню
+   */
+
+  const [citiesOpened, citiesOpenedSetter] = useState(false)
+
+  const toggleMenuCities = useCallback(() => {
+    citiesOpenedSetter(!citiesOpened)
+  }, [citiesOpened])
+
   const citiesList = useMemo<JSX.Element | null>(() => {
-    const coordsUrl = ''
+    //const coordsUrl = ''
 
     const citiesList: JSX.Element[] = []
 
@@ -55,7 +65,11 @@ const MainMenu: React.FC = () => {
         <li key={id}>
           <Link href={link}>
             <a
-            // onClick={closeMenu}
+              style={{
+                color: '#000',
+              }}
+
+              // onClick={closeMenu}
             >
               {name}
             </a>
@@ -66,55 +80,20 @@ const MainMenu: React.FC = () => {
 
     //const citiesOpened = false
 
-    /**
-   * Открытие и закрытие городов в меню
-   */
-
-
-   const [citiesOpened, citiesOpenedSetter] = useState(false)
-
-  const toggleMenuCities = () => {
-    if(citiesOpened){
-      citiesOpenedSetter(false)
-    } else {
-      citiesOpenedSetter(true)
-    }
-  }
-
-console.log('citiesOpened:',citiesOpened)
-
-/*
-   useEffect(() => {
-    if (!citiesOpened) {
-      return
-    }
-
-    const closeCitiesEvent = () => {
-      citiesOpenedSetter(false)
-    }
-
-    window.document.addEventListener('click', closeCitiesEvent)
-
-    return () => {
-      window.document.removeEventListener('click', closeCitiesEvent)
-    }
-  }, [citiesOpened])
-
-*/
     return (
       (mainCity && citiesList && citiesList.length && (
-        <li>
-          <button
+        <li className="dropdown-menu-box">
+          <a
             //href={`/city/${coordsUrl}`}
             onClick={toggleMenuCities}
             title="Пивная карта по городам"
             className="dropdown-toggle"
-            data-toggle="dropdown"            
+            data-toggle="dropdown"
           >
             {mainCity.name} <i className="fa fa-angle-down"></i>
-          </button>
+          </a>
           <ul
-            className="dropdown-menu"            
+            className="dropdown-menu"
             style={{
               display: citiesOpened ? 'block' : 'none',
               maxHeight: '70vh',
@@ -122,7 +101,7 @@ console.log('citiesOpened:',citiesOpened)
               position: 'absolute',
               background: '#fff',
               listStyle: 'none',
-              
+              paddingInlineStart: '15px',
             }}
           >
             {citiesList}
@@ -131,18 +110,10 @@ console.log('citiesOpened:',citiesOpened)
       )) ||
       null
     )
-  }, [cities, mainCity])
+  }, [cities, mainCity, citiesOpened, toggleMenuCities])
 
   // TODO Remove
   citiesList
-
-
-  
-
-
-
-
-
 
   const [opened, openedSetter] = useState(false)
 
@@ -198,8 +169,7 @@ console.log('citiesOpened:',citiesOpened)
         </ul>
       </MainMenuStyled>
     )
-  }, [opened, toggleMenu])
+  }, [opened, citiesList, toggleMenu])
 }
-
 
 export default MainMenu
