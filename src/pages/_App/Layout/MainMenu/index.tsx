@@ -43,6 +43,22 @@ const MainMenu: React.FC = () => {
     citiesOpenedSetter(!citiesOpened)
   }, [citiesOpened])
 
+  useEffect(() => {
+    if (!citiesOpened) {
+      return
+    }
+
+    const closeCitiesOpenedEvent = () => {
+      citiesOpenedSetter(false)
+    }
+
+    window.document.addEventListener('click', closeCitiesOpenedEvent)
+
+    return () => {
+      window.document.removeEventListener('click', closeCitiesOpenedEvent)
+    }
+  }, [citiesOpened])
+
   const citiesList = useMemo<JSX.Element | null>(() => {
     //const coordsUrl = ''
 
@@ -96,12 +112,12 @@ const MainMenu: React.FC = () => {
             className="dropdown-menu"
             style={{
               display: citiesOpened ? 'block' : 'none',
-              maxHeight: '70vh',
+              /*maxHeight: '70vh',
               overflow: 'auto',
               position: 'absolute',
               background: '#fff',
               listStyle: 'none',
-              paddingInlineStart: '15px',
+              paddingInlineStart: '15px',*/
             }}
           >
             {citiesList}

@@ -46,6 +46,15 @@ export const MainMenuStyled = styled.div<MainMenuStyledProps>`
     margin-top: 7px;
   }
 
+  .dropdown-menu {
+    max-height: 70vh;
+    overflow: auto;
+    position: absolute;
+    background: #fff;
+    list-style: none;
+    padding-inline-start: 15px;
+  }
+
   ul#navbar-main {
     margin: 0;
     padding: 0;
