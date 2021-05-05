@@ -5,14 +5,14 @@ export type MainMenuStyledProps = {
   opened: boolean
 }
 
-export type DropdownMenu = {
+export type DropdownMenuStyledProps = {
   /**
    * Открыто или закрыто
    */
   opened: boolean
 }
 
-export const DropdownMenu = styled.ul<DropdownMenu>`
+export const DropdownMenuStyled = styled.ul<DropdownMenuStyledProps>`
   overflow: auto;
   position: absolute;
   background: #fff;
@@ -33,7 +33,7 @@ export const DropdownMenu = styled.ul<DropdownMenu>`
   }}
 `
 
-export const DropdownMenuBox = styled.li`
+export const DropdownMenuBoxStyled = styled.li`
   list-style: none;
   margin-left: 50px;
   margin-top: 7px;
@@ -74,7 +74,7 @@ export const MainMenuStyled = styled.div<MainMenuStyledProps>`
     }
   }
 
-  ${DropdownMenu} {
+  ${DropdownMenuStyled} {
     max-height: 70vh;
   }
 

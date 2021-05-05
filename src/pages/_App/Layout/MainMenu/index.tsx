@@ -9,7 +9,11 @@ import React, {
 import Link from 'next/link'
 
 import { AppContext } from 'src/pages/_App/Context'
-import { DropdownMenu, DropdownMenuBox, MainMenuStyled } from './styles'
+import {
+  DropdownMenuStyled,
+  DropdownMenuBoxStyled,
+  MainMenuStyled,
+} from './styles'
 
 //import logo from './img/bath-logo.png'
 import logo from './img/pivkarta-logo.png'
@@ -98,7 +102,7 @@ const MainMenu: React.FC = () => {
 
     return (
       (mainCity && citiesList && citiesList.length && (
-        <DropdownMenuBox>
+        <DropdownMenuBoxStyled>
           <a
             //href={`/city/${coordsUrl}`}
             onClick={toggleMenuCities}
@@ -106,8 +110,10 @@ const MainMenu: React.FC = () => {
           >
             {mainCity.name} <i className="fa fa-angle-down"></i>
           </a>
-          <DropdownMenu opened={citiesOpened}>{citiesList}</DropdownMenu>
-        </DropdownMenuBox>
+          <DropdownMenuStyled opened={citiesOpened}>
+            {citiesList}
+          </DropdownMenuStyled>
+        </DropdownMenuBoxStyled>
       )) ||
       null
     )
