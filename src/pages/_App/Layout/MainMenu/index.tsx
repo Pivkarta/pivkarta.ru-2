@@ -9,7 +9,7 @@ import React, {
 import Link from 'next/link'
 
 import { AppContext } from 'src/pages/_App/Context'
-import { MainMenuStyled } from './styles'
+import { DropdownMenu, DropdownMenuBox, MainMenuStyled } from './styles'
 
 //import logo from './img/bath-logo.png'
 import logo from './img/pivkarta-logo.png'
@@ -98,31 +98,16 @@ const MainMenu: React.FC = () => {
 
     return (
       (mainCity && citiesList && citiesList.length && (
-        <li className="dropdown-menu-box">
+        <DropdownMenuBox>
           <a
             //href={`/city/${coordsUrl}`}
             onClick={toggleMenuCities}
             title="Пивная карта по городам"
-            className="dropdown-toggle"
-            data-toggle="dropdown"
           >
             {mainCity.name} <i className="fa fa-angle-down"></i>
           </a>
-          <ul
-            className="dropdown-menu"
-            style={{
-              display: citiesOpened ? 'block' : 'none',
-              /*maxHeight: '70vh',
-              overflow: 'auto',
-              position: 'absolute',
-              background: '#fff',
-              listStyle: 'none',
-              paddingInlineStart: '15px',*/
-            }}
-          >
-            {citiesList}
-          </ul>
-        </li>
+          <DropdownMenu opened={citiesOpened}>{citiesList}</DropdownMenu>
+        </DropdownMenuBox>
       )) ||
       null
     )
