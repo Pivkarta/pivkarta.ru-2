@@ -1,43 +1,10 @@
 import { minWidth } from 'src/theme/helpers'
 import styled, { css } from 'styled-components'
+import { DropdownMenuStyled } from './DropdownMenu/styles'
 
 export type MainMenuStyledProps = {
   opened: boolean
 }
-
-export type DropdownMenuStyledProps = {
-  /**
-   * Открыто или закрыто
-   */
-  opened: boolean
-}
-
-export const DropdownMenuStyled = styled.ul<DropdownMenuStyledProps>`
-  overflow: auto;
-  position: absolute;
-  background: #fff;
-  list-style: none;
-  padding-inline-start: 15px;
-  max-height: 60vh;
-
-  ${({ opened }) => {
-    if (opened) {
-      return css`
-        display: block;
-      `
-    } else {
-      return css`
-        display: none;
-      `
-    }
-  }}
-`
-
-export const DropdownMenuBoxStyled = styled.li`
-  list-style: none;
-  margin-left: 50px;
-  margin-top: 7px;
-`
 
 export const MainMenuStyled = styled.div<MainMenuStyledProps>`
   background-image: linear-gradient(#54b4eb, #2fa4e7 60%, #1d9ce5);
