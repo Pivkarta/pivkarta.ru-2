@@ -18,7 +18,15 @@ import {
 //import logo from './img/bath-logo.png'
 import logo from './img/pivkarta-logo.png'
 
+
+
+
+
+
+
 const MainMenu: React.FC = () => {
+  
+  
   const context = useContext(AppContext)
 
   /**
@@ -122,6 +130,104 @@ const MainMenu: React.FC = () => {
   // TODO Remove
   citiesList
 
+
+
+
+
+  const DropdownMenu: React.FC<DropdownMenuProps> = ({
+    name,
+    href,
+    title,
+    children,
+    ...other
+  }) => {
+  
+    /**
+     * Здесь вся логика с citiesOpened, toggleMenuCities и т.п.
+     */
+  
+     const [citiesOpened, citiesOpenedSetter] = useState(false)
+  
+     const toggleMenuCities = useCallback(() => {
+       citiesOpenedSetter(!citiesOpened)
+     }, [citiesOpened])
+   
+     useEffect(() => {
+       if (!citiesOpened) {
+         return
+       }
+   
+       const closeCitiesOpenedEvent = () => {
+         citiesOpenedSetter(false)
+       }
+   
+       window.document.addEventListener('click', closeCitiesOpenedEvent)
+   
+       return () => {
+         window.document.removeEventListener('click', closeCitiesOpenedEvent)
+       }
+     }, [citiesOpened])
+   
+     const citiesList = useMemo<JSX.Element | null>(() => {
+       //const coordsUrl = ''
+   
+       const citiesList: JSX.Element[] = []
+   
+       cities.forEach((city) => {
+         if (!city) {
+           return
+         }
+   
+         const { id, name, lat, lng, alias: uri } = city
+   
+         if (!lat || !lng) {
+           return
+         }
+   
+         const link = `/${uri}@` + [lat, lng, 12].join(',')
+   
+         citiesList.push(
+           <li key={id}>
+             <Link href={link}>
+               <a
+                 style={{
+                   color: '#000',
+                 }}
+   
+                 // onClick={closeMenu}
+               >
+                 {name}
+               </a>
+             </Link>
+           </li>
+         )
+       })
+   
+  
+    return <DropdownMenuStyled
+      {...other}
+    >
+      <a
+        href={href}
+        title={title}
+        onClick={toggleMenuCities}
+      >
+        {name} <i className="fa fa-angle-down"></i>
+      </a>
+      <DropdownMenuBoxStyled opened={citiesOpened}>
+        {children}
+      </DropdownMenuBoxStyled>
+    </DropdownMenuStyled>
+    },[])
+  
+
+
+
+
+
+
+
+
   const [opened, openedSetter] = useState(false)
 
   const toggleMenu = useCallback(() => {
@@ -158,6 +264,16 @@ const MainMenu: React.FC = () => {
         </Link>
 
         {citiesList}
+
+
+        <DropdownMenu
+          name={name}
+          href={href}
+          title={title}
+          
+        >
+          {citiesList}
+        </DropdownMenu>
 
         <div className="separator" />
 
