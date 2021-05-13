@@ -7,7 +7,7 @@ export type DropdownMenuItemStyledProps = {
   opened: boolean
 }
 
-export const DropdownMenuItemStyled = styled.ul<DropdownMenuItemStyledProps>`
+export const DropdownSubmenuStyled = styled.ul<DropdownMenuItemStyledProps>`
   overflow: auto;
   position: absolute;
   background: #fff;
