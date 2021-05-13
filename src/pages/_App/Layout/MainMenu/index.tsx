@@ -9,14 +9,11 @@ import React, {
 import Link from 'next/link'
 
 import { AppContext } from 'src/pages/_App/Context'
-import {
-  DropdownMenuStyled,
-  DropdownMenuBoxStyled,
-  MainMenuStyled,
-} from './styles'
+import { MainMenuStyled } from './styles'
 
 //import logo from './img/bath-logo.png'
 import logo from './img/pivkarta-logo.png'
+import DropdownMenu from './DropdownMenu'
 
 const MainMenu: React.FC = () => {
   const context = useContext(AppContext)
@@ -36,32 +33,6 @@ const MainMenu: React.FC = () => {
   }, [context?.appData?.cities])
 
   const baseUrl = '/'
-
-  /**
-   * Открытие и закрытие городов в меню
-   */
-
-  const [citiesOpened, citiesOpenedSetter] = useState(false)
-
-  const toggleMenuCities = useCallback(() => {
-    citiesOpenedSetter(!citiesOpened)
-  }, [citiesOpened])
-
-  useEffect(() => {
-    if (!citiesOpened) {
-      return
-    }
-
-    const closeCitiesOpenedEvent = () => {
-      citiesOpenedSetter(false)
-    }
-
-    window.document.addEventListener('click', closeCitiesOpenedEvent)
-
-    return () => {
-      window.document.removeEventListener('click', closeCitiesOpenedEvent)
-    }
-  }, [citiesOpened])
 
   const citiesList = useMemo<JSX.Element | null>(() => {
     //const coordsUrl = ''
@@ -100,24 +71,33 @@ const MainMenu: React.FC = () => {
 
     //const citiesOpened = false
 
+    // return (
+    //   (mainCity && citiesList && citiesList.length && (
+    //     <DropdownMenuBoxStyled>
+    //       <a
+    //         //href={`/city/${coordsUrl}`}
+    //         onClick={toggleMenuCities}
+    //         title="Пивная карта по городам"
+    //       >
+    //         {mainCity.name} <i className="fa fa-angle-down"></i>
+    //       </a>
+    //       <DropdownMenuStyled opened={citiesOpened}>
+    //         {citiesList}
+    //       </DropdownMenuStyled>
+    //     </DropdownMenuBoxStyled>
+    //   )) ||
+    //   null
+    // )
+
     return (
       (mainCity && citiesList && citiesList.length && (
-        <DropdownMenuBoxStyled>
-          <a
-            //href={`/city/${coordsUrl}`}
-            onClick={toggleMenuCities}
-            title="Пивная карта по городам"
-          >
-            {mainCity.name} <i className="fa fa-angle-down"></i>
-          </a>
-          <DropdownMenuStyled opened={citiesOpened}>
-            {citiesList}
-          </DropdownMenuStyled>
-        </DropdownMenuBoxStyled>
+        <DropdownMenu name={mainCity.name} title="Пивная карта по городам">
+          {citiesList}
+        </DropdownMenu>
       )) ||
       null
     )
-  }, [cities, mainCity, citiesOpened, toggleMenuCities])
+  }, [cities, mainCity])
 
   // TODO Remove
   citiesList
