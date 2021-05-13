@@ -1,6 +1,6 @@
 import React, { useCallback, useEffect, useMemo, useState } from 'react'
 import { DropdownMenuProps } from './interfaces'
-import { DropdownMenuBoxStyled, DropdownMenuStyled } from './styles'
+import { DropdownMenuBoxStyled, DropdownMenuBoxListStyled } from './styles'
 
 /**
  * Выпадающее меню
@@ -48,9 +48,9 @@ const DropdownMenu: React.FC<DropdownMenuProps> = ({
           >
             {name} <i className="fa fa-angle-down"></i>
           </a>
-          <DropdownMenuStyled opened={citiesOpened}>
+          <DropdownMenuBoxListStyled opened={citiesOpened}>
             {children}
-          </DropdownMenuStyled>
+          </DropdownMenuBoxListStyled>
         </DropdownMenuBoxStyled>
       )) ||
       null
