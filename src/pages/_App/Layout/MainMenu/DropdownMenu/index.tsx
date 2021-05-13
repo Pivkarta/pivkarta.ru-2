@@ -1,6 +1,6 @@
 import React, { useCallback, useEffect, useMemo, useState } from 'react'
 import { DropdownMenuProps } from './interfaces'
-import { DropdownMenuBoxStyled, DropdownMenuBoxListStyled } from './styles'
+import { DropdownMenuStyled, DropdownMenuItemStyled } from './styles'
 
 /**
  * Выпадающее меню
@@ -40,7 +40,7 @@ const DropdownMenu: React.FC<DropdownMenuProps> = ({
   return useMemo(() => {
     return (
       (children && (
-        <DropdownMenuBoxStyled {...other}>
+        <DropdownMenuStyled {...other}>
           <a
             //href={`/city/${coordsUrl}`}
             onClick={toggleMenuCities}
@@ -48,10 +48,10 @@ const DropdownMenu: React.FC<DropdownMenuProps> = ({
           >
             {name} <i className="fa fa-angle-down"></i>
           </a>
-          <DropdownMenuBoxListStyled opened={citiesOpened}>
+          <DropdownMenuItemStyled opened={citiesOpened}>
             {children}
-          </DropdownMenuBoxListStyled>
-        </DropdownMenuBoxStyled>
+          </DropdownMenuItemStyled>
+        </DropdownMenuStyled>
       )) ||
       null
     )

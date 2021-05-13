@@ -1,13 +1,13 @@
 import styled, { css } from 'styled-components'
 
-export type DropdownMenuBoxListStyledProps = {
+export type DropdownMenuItemStyledProps = {
   /**
    * Открыто или закрыто
    */
   opened: boolean
 }
 
-export const DropdownMenuBoxListStyled = styled.ul<DropdownMenuBoxListStyledProps>`
+export const DropdownMenuItemStyled = styled.ul<DropdownMenuItemStyledProps>`
   overflow: auto;
   position: absolute;
   background: #fff;
@@ -29,7 +29,7 @@ export const DropdownMenuBoxListStyled = styled.ul<DropdownMenuBoxListStyledProp
   }}
 `
 
-export const DropdownMenuBoxStyled = styled.li`
+export const DropdownMenuStyled = styled.li`
   list-style: none;
   margin-left: 50px;
   margin-top: 7px;

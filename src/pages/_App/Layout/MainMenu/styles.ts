@@ -1,6 +1,6 @@
 import { minWidth } from 'src/theme/helpers'
 import styled, { css } from 'styled-components'
-import { DropdownMenuBoxListStyled } from './DropdownMenu/styles'
+import { DropdownMenuItemStyled } from './DropdownMenu/styles'
 
 export type MainMenuStyledProps = {
   opened: boolean
@@ -41,7 +41,7 @@ export const MainMenuStyled = styled.div<MainMenuStyledProps>`
     }
   }
 
-  ${DropdownMenuBoxListStyled} {
+  ${DropdownMenuItemStyled} {
     max-height: 70vh;
   }
 
