@@ -23,7 +23,7 @@ const UserLink: React.FC<UserLinkProps> = ({
         >
           {showAvatar && user.image && (
             <img
-              src={'https://pivkarta.ru' + imageFormats(user.image, 'thumb')}
+              src={'https://pivkarta.ru/' + imageFormats(user.image, 'thumb')}
               className="avatar"
             />
           )}{' '}
