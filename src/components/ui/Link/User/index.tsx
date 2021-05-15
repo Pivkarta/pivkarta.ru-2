@@ -22,7 +22,10 @@ const UserLink: React.FC<UserLinkProps> = ({
           title={user.fullname || user.username || undefined}
         >
           {showAvatar && user.image && (
-            <img src={imageFormats(user.image, 'thumb')} className="avatar" />
+            <img
+              src={'https://pivkarta.ru' + imageFormats(user.image, 'thumb')}
+              className="avatar"
+            />
           )}{' '}
           {showName && (user.fullname || user.username)}
         </Link>
