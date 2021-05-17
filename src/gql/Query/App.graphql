@@ -1,6 +1,6 @@
 query appData {
   # Города
   cities(orderBy: name_ASC) {
-    ...city
+    ...city_
   }
 }

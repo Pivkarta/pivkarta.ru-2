@@ -9,9 +9,9 @@
 
 import * as Types from './types';
 
-import { CityFragment } from './city';
+import { CityFragment } from './city_';
 import { gql } from '@apollo/client';
-import { CityFragmentDoc } from './city';
+import { CityFragmentDoc } from './city_';
 import * as Apollo from '@apollo/client';
 export type CitiesQueryVariables = Types.Exact<{
   take?: Types.Maybe<Types.Scalars['Int']>;
@@ -30,7 +30,7 @@ export type CitiesQuery = { __typename?: 'Query', cities: Array<Types.Maybe<(
 export const CitiesDocument = gql`
     query cities($take: Int, $skip: Int, $where: CityWhereInput, $orderBy: CityOrderByInput) {
   cities: cities(first: $take, skip: $skip, where: $where, orderBy: $orderBy) {
-    ...city
+    ...city_
   }
 }
     ${CityFragmentDoc}`;

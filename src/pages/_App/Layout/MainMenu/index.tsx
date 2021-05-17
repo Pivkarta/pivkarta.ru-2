@@ -50,7 +50,7 @@ const MainMenu: React.FC = () => {
         return
       }
 
-      const link = `/${uri}@` + [lat, lng, 12].join(',')
+      const link = `/${uri}/@` + [lat, lng, 12].join(',')
 
       citiesList.push(
         <li key={id}>

@@ -17,11 +17,17 @@ query cities(
     where: $where
     orderBy: $orderBy
   ) {
-    ...city
+    ...city_
   }
 }
 
-fragment city on City {
+query city($where: CityWhereUniqueInput!) {
+  city(where: $where) {
+    ...city_
+  }
+}
+
+fragment city_ on City {
   id
   name
   alias
