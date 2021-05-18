@@ -5,6 +5,9 @@ import React, { useMemo } from 'react'
 import {
   useCompaniesConnectionQuery,
   CompaniesConnectionQueryVariables,
+  CityDocument,
+  CityQuery,
+  CityQueryVariables,
 } from 'src/modules/gql/generated'
 import { Page } from 'src/pages/_App/interfaces'
 import { CityPageProps } from './interfaces'
@@ -53,6 +56,9 @@ export const getCompaniesVariables = ({
   }
 }
 
+/**
+ * Страница города (вывод компаний)
+ */
 const CityPage: Page<CityPageProps> = ({ city, ...other }) => {
   const router = useRouter()
 
@@ -63,11 +69,30 @@ const CityPage: Page<CityPageProps> = ({ city, ...other }) => {
     })
   }, [city, router.query])
 
+  /**
+   * Получаем список компаний
+   */
   const companiesResponse = useCompaniesConnectionQuery({
     variables,
+
+    /**
+     * Если город отсутствует, не выполняем АПИ-запрос.
+     * На самом деле внизу в getInitialProps прописано, что если города нет,
+     * то возвращаем 404 (так что эта часть вообще не будет рендериться), но
+     * мы обязаны условия прописать для тайпскрипта, чтобы он не ругался.
+     * А хуки нельзя по условию рендерить или нет, они всегда должны быть исполняемыми.
+     */
+    skip: !city,
   })
 
   return useMemo(() => {
+    /**
+     * Если город отсутствует, возвращаем пусто
+     */
+    if (!city) {
+      return null
+    }
+
     const companies: CityPageViewProps['companies'] = []
 
     companiesResponse.data?.companiesConnection.edges.forEach((n) => {
@@ -79,20 +104,23 @@ const CityPage: Page<CityPageProps> = ({ city, ...other }) => {
     return (
       <>
         <NextSeo
-          title={`Общественные бани в городе "${city.name}"`}
-          description={`Все общественные бани и сауны в городе "${city.name}"`}
+          title={`Компании в городе "${city.name}"`}
+          description={`Все компании в городе "${city.name}"`}
         />
-        <CityPageView
-          city={city}
-          companies={companies}
-          pagination={{
-            page,
-            limit: companiesResponse.variables?.first || 0,
-            total:
-              companiesResponse.data?.companiesConnection.aggregate.count || 0,
-          }}
-          {...other}
-        />
+        {
+          <CityPageView
+            city={city}
+            companies={companies}
+            pagination={{
+              page,
+              limit: companiesResponse.variables?.first || 0,
+              total:
+                companiesResponse.data?.companiesConnection.aggregate.count ||
+                0,
+            }}
+            {...other}
+          />
+        }
       </>
     )
   }, [
@@ -103,6 +131,30 @@ const CityPage: Page<CityPageProps> = ({ city, ...other }) => {
     other,
     page,
   ])
+}
+
+CityPage.getInitialProps = async ({ query, apolloClient }) => {
+  let city: CityPageViewProps['city'] | null = null
+
+  if (query.city && typeof query.city === 'string') {
+    await apolloClient
+      .query<CityQuery, CityQueryVariables>({
+        query: CityDocument,
+        variables: {
+          where: {
+            alias: query.city,
+          },
+        },
+      })
+      .then((r) => {
+        city = r.data.city || null
+      })
+  }
+
+  return {
+    city,
+    statusCode: !city ? 404 : undefined,
+  }
 }
 
 export default CityPage

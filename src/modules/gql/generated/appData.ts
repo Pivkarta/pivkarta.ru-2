@@ -9,9 +9,9 @@
 
 import * as Types from './types';
 
-import { CityFragment } from './city';
+import { CityFragment } from './city_';
 import { gql } from '@apollo/client';
-import { CityFragmentDoc } from './city';
+import { CityFragmentDoc } from './city_';
 import * as Apollo from '@apollo/client';
 export type AppDataQueryVariables = Types.Exact<{ [key: string]: never; }>;
 
@@ -25,7 +25,7 @@ export type AppDataQuery = { __typename?: 'Query', cities: Array<Types.Maybe<(
 export const AppDataDocument = gql`
     query appData {
   cities(orderBy: name_ASC) {
-    ...city
+    ...city_
   }
 }
     ${CityFragmentDoc}`;
