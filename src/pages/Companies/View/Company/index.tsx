@@ -21,9 +21,9 @@ const CompaniesViewCompany: React.FC<CompaniesViewCompanyProps> = ({
             <Link href={company.uri || '/'}>
               <img
                 src={
-                  (company.image &&
-                    imageFormats(company.image, 'slider_thumb')) ||
-                  undefined
+                  'https://pivkarta.ru/' +
+                    (company.image &&
+                      imageFormats(company.image, 'place_avatar')) || undefined
                 }
                 className="company--image"
                 alt={company.name}

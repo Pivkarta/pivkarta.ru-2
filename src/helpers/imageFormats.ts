@@ -8,6 +8,7 @@ export const imageFormats = (
     | 'small'
     | 'middle'
     | 'big'
+    | 'place_avatar'
 ) => {
   let prefix = ''
 
@@ -38,6 +39,10 @@ export const imageFormats = (
 
     case 'big':
       prefix = 'images/resized/big/'
+      break
+
+    case 'place_avatar':
+      prefix = 'images/resized/place_avatar/'
       break
   }
 
