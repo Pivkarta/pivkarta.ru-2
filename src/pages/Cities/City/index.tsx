@@ -8,6 +8,8 @@ import {
   CityDocument,
   CityQuery,
   CityQueryVariables,
+  CompaniesConnectionDocument,
+  CompaniesConnectionQuery,
 } from 'src/modules/gql/generated'
 import { Page } from 'src/pages/_App/interfaces'
 import { CityPageProps } from './interfaces'
@@ -29,7 +31,7 @@ export const getCompaniesVariables = ({
 } => {
   let skip: number | undefined
 
-  const take = 10
+  const take = 12
 
   const page =
     (query.page && typeof query.page === 'string' && parseInt(query.page)) || 0
@@ -39,25 +41,54 @@ export const getCompaniesVariables = ({
   }
 
   const variables: CompaniesConnectionQueryVariables = {
-    first: 12,
+    first: take,
     skip,
   }
 
-  if (query.coords) {
-    const coordsline: string | string[] | undefined = query.coords.slice(1)
-    const arrayOfCoords: string | string[] = coordsline.split(',') // eslint-disable-line no-use-before-define
+  /**
+   * Проверяем есть ли параметр coords, является ли он строкой и начинается ли с символа @
+   */
+  if (
+    query.coords &&
+    typeof query.coords === 'string' &&
+    query.coords.startsWith('@')
+  ) {
+    /**
+     * Убираем первый символ @ и разбиваем в массив по разделителю-запятой
+     */
+    const arrayOfCoords = query.coords.slice(1).split(',')
 
-    const lat = parseFloat(arrayOfCoords[0])
-    const lng = parseFloat(arrayOfCoords[1])
+    /**
+     * Задаем переменные из объекта city, если он есть. Если нет, то переменные будут со значением undefined.
+     */
+    let { lat, lng } = city || {}
 
-    variables.center = {
-      lat: lat,
-      lng: lng,
+    /**
+     * Если есть массив arrayOfCoords и его длина равна трем, перетираем переменные координат.
+     * Замечаение: здесь можно было бы добавить еще проверку на значения массива, чтобы не перетирать координаты,
+     * если значения некорректные, но так не надо делать именно в этом случае, потому что это тогда ломает саму суть перетирания,
+     * ибо можно тогда наплодить кучу УРЛов некорректных, но которые все равно будут всегда выдавать один и тот же список компаний
+     * из центра города. Так что некорректный УРЛ должен оставаться некорректным.
+     */
+    if (arrayOfCoords.length === 3) {
+      lat = parseFloat(arrayOfCoords[0])
+      lng = parseFloat(arrayOfCoords[1])
     }
-  } else if (city) {
-    variables.center = {
-      lat: city.lat,
-      lng: city.lng,
+
+    /**
+     * Проверяем есть ли переменные координат и являются ли они числами.
+     * Если да, то задаем параметры запроса
+     */
+    if (
+      lat !== undefined &&
+      isFinite(lat) &&
+      lng !== undefined &&
+      isFinite(lng)
+    ) {
+      variables.center = {
+        lat,
+        lng,
+      }
     }
   }
 
@@ -92,8 +123,10 @@ const CityPage: Page<CityPageProps> = ({ city, ...other }) => {
      * то возвращаем 404 (так что эта часть вообще не будет рендериться), но
      * мы обязаны условия прописать для тайпскрипта, чтобы он не ругался.
      * А хуки нельзя по условию рендерить или нет, они всегда должны быть исполняемыми.
+     *
+     * Так же не выполняем запрос компаний, если координаты не определены.
      */
-    skip: !city,
+    skip: !city || !variables.center,
   })
 
   return useMemo(() => {
@@ -157,8 +190,29 @@ CityPage.getInitialProps = async ({ query, apolloClient }) => {
           },
         },
       })
-      .then((r) => {
+      .then(async (r) => {
         city = r.data.city || null
+
+        /**
+         * Если город получен, надо запросить и компании по нему, иначе SSR
+         * не будет нормально отработан.
+         */
+        if (city) {
+          const { variables } = getCompaniesVariables({
+            city,
+            query: query,
+          })
+
+          if (variables.center) {
+            await apolloClient.query<
+              CompaniesConnectionQuery,
+              CompaniesConnectionQueryVariables
+            >({
+              query: CompaniesConnectionDocument,
+              variables,
+            })
+          }
+        }
       })
   }
 
