@@ -43,7 +43,18 @@ export const getCompaniesVariables = ({
     skip,
   }
 
-  if (city) {
+  if (query.coords) {
+    const coordsline: string | string[] | undefined = query.coords.slice(1)
+    const arrayOfCoords: string | string[] = coordsline.split(',') // eslint-disable-line no-use-before-define
+
+    const lat = parseFloat(arrayOfCoords[0])
+    const lng = parseFloat(arrayOfCoords[1])
+
+    variables.center = {
+      lat: lat,
+      lng: lng,
+    }
+  } else if (city) {
     variables.center = {
       lat: city.lat,
       lng: city.lng,
