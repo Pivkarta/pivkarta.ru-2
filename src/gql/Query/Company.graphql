@@ -63,4 +63,5 @@ fragment company on Place {
   phone
   site: website
   work_hours
+  url_name
 }

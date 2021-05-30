@@ -18,7 +18,7 @@ const CompaniesViewCompany: React.FC<CompaniesViewCompanyProps> = ({
       <CompaniesViewCompanyStyled>
         <Paper>
           <div className="imageWrapper">
-            <Link href={company.uri || '/'}>
+            <Link href={'/place/' + company.url_name || '/'}>
               <img
                 src={
                   'https://pivkarta.ru/' +
