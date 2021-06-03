@@ -13,6 +13,8 @@ const CompanyPage = () => {
 
   const { uri } = router.query
 
+  //console.log(uri.join());
+
   return <p>Post: {uri}</p>
 }
 
