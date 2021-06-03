@@ -41,6 +41,12 @@ query companiesConnection(
   }
 }
 
+query companyInfo ($where: PlaceWhereUniqueInput!) {
+  object: place (where: $where) {
+    ...company
+  }
+}
+
 fragment company on Place {
   id
   minPrice

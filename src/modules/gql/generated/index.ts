@@ -9,6 +9,7 @@ export * from './commentsConnection';
 export * from './companies';
 export * from './companiesConnection';
 export * from './company';
+export * from './companyInfo';
 export * from './me';
 export * from './user';
 export * from './userByUsername';export * from './types';
