@@ -7,32 +7,39 @@ import {
   useCompanyInfoQuery,
   //CompanyInfoQuery,
   //CompanyInfoDocument,
-  CompanyInfoQueryVariables,  
+  CompanyInfoQueryVariables,
 } from 'src/modules/gql/generated'
 
 //import { Page } from '../../_App/interfaces'
 //import { CompanyPageProps } from './interfaces'
 
-
 const getVariables = (placeid: number): CompanyInfoQueryVariables => {
-  //const id = query.id 
+  //const id = query.id
   //console.log('beers', query)
 
   return {
     where: {
       // eslint-disable-next-line @typescript-eslint/camelcase
-      place_id: placeid && typeof placeid === 'number' ? placeid : '',      
+      place_id: placeid,
+      //place_id: placeid && typeof placeid === 'number' ? placeid : '',
     },
   }
 }
 
-
-
-
 const CompanyPage = () => {
   const router = useRouter()
 
-  const placeId = parseFloat(router.query.uri[0])
+  let placeId = 0
+
+  if (router.query.uri && router.query.uri[0]) {
+    placeId = parseFloat(router.query.uri[0])
+  }
+
+  /**
+   * Здесь надо понять, что делать, если останется placeId = 0.
+   * Проблема в том, что хук useCompanyInfoQuery должет сработать при любых раскладах,
+   * то есть при несоблюдении правила if() прервать нельзя.
+   */
 
   const variables = getVariables(placeId)
 
@@ -40,17 +47,17 @@ const CompanyPage = () => {
     variables,
   })
 
+  const name = response.data?.object?.name
+  const image = response.data?.object?.image
+
   //const url = uri.join()
 
   //console.log('response',response);
-  
-  const name = response.data?.object?.name 
-  const image = response.data?.object?.image 
 
   return (
     <>
-    <p>Название: {name}</p>
-    <p>Картинка: {image}</p>
+      <p>Название: {name}</p>
+      <p>Картинка: {image}</p>
     </>
   )
 }

@@ -41,8 +41,8 @@ query companiesConnection(
   }
 }
 
-query companyInfo ($where: PlaceWhereUniqueInput!) {
-  object: place (where: $where) {
+query companyInfo($where: PlaceWhereUniqueInput!) {
+  object: place(where: $where) {
     ...company
   }
 }
