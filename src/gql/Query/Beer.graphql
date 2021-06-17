@@ -1,0 +1,54 @@
+query beerInfo($where: BeerWhereUniqueInput!) {
+  object: beer(where: $where) {
+    ...beer
+  }
+}
+
+query beersConnection(
+  $where: BeerWhereInput
+  $orderBy: BeerOrderByInput
+  $first: Int
+  $skip: Int
+) {
+  beersConnection(
+    where: $where
+    orderBy: $orderBy
+    first: $first
+    skip: $skip
+  ) {
+    aggregate {
+      count
+    }
+    edges {
+      node {
+        ...beer
+      }
+    }
+  }
+}
+
+fragment beer on Beer {
+  id
+  beer_id
+  uri
+  name
+  url_name
+  createdAt
+  updatedAt
+  description
+  country
+  image
+  manufacturer
+  manufacture_years
+  container
+  alcohol
+  wort_percent
+  components
+  bitter
+  type_id
+  color
+  is_request
+  created_at
+  gallery
+  pasteurized
+}
