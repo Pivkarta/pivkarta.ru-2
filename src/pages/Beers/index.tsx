@@ -4,12 +4,12 @@ import { ParsedUrlQuery } from 'querystring'
 import React, { useMemo } from 'react'
 import {
   //BeerOrderByInput,
-  //BeersConnectionDocument,
-  //BeersConnectionQuery,
+  BeersConnectionDocument,
+  BeersConnectionQuery,
   BeersConnectionQueryVariables,
   useBeersConnectionQuery,
 } from 'src/modules/gql/generated'
-//import { Page } from 'src/pages/_App/interfaces'
+import { Page } from 'src/pages/_App/interfaces'
 import BeersPageView from './View'
 import { BeersPageViewProps } from './View/interfaces'
 
@@ -28,8 +28,7 @@ export const getBeersVariables = ({
 
   const take = 12
 
-  const page =
-    (query.page && typeof query.page === 'string' && parseInt(query.page)) || 0
+  const page = (query.page && typeof query.page === 'string' && parseInt(query.page)) || 0
 
   if (page > 1) {
     skip = (page - 1) * take
@@ -46,7 +45,7 @@ export const getBeersVariables = ({
   }
 }
 
-const BeersPage = () => {
+const BeersPage: Page = () => {
   const router = useRouter()
 
   const { variables, page } = useMemo(() => {
@@ -87,7 +86,7 @@ const BeersPage = () => {
     return beers
   }, [beersResponse.data?.beersConnection.edges])
 
-  //return useMemo(() => {
+  return useMemo(() => {
 
   return (
     <>
@@ -117,15 +116,33 @@ const BeersPage = () => {
       />
     </>
   )
-  /* },[
-        beers,
-        beersResponse.data?.beersConnection.aggregate.count,
-        beersResponse.data?.beersConnection.edges,
-        beersResponse.variables?.first,
-        page,
-    ]
+   },[beers, beersResponse.data?.beersConnection.aggregate.count, beersResponse.variables?.first, page]
     )
-*/
+
+}
+
+BeersPage.getInitialProps = async (context) => {
+  const { apolloClient } = context
+
+  const qq = context.query as any
+
+  const result = await apolloClient.query<BeersConnectionQuery>({
+    query: BeersConnectionDocument,
+
+    /**
+     * Важно, чтобы все переменные запроса серверные и фронтовые совпадали,
+     * иначе при рендеринге не будут получены данные из кеша и рендер будет пустой.
+     */
+    variables: {
+      ...getBeersVariables(qq),
+    },
+  })
+
+
+
+  return {
+    statusCode: !result.data.beersConnection.edges.length ? 404 : undefined,
+  }
 }
 
 export default BeersPage
