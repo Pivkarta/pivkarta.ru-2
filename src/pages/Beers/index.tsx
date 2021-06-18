@@ -28,7 +28,8 @@ export const getBeersVariables = ({
 
   const take = 12
 
-  const page = (query.page && typeof query.page === 'string' && parseInt(query.page)) || 0
+  const page =
+    (query.page && typeof query.page === 'string' && parseInt(query.page)) || 0
 
   if (page > 1) {
     skip = (page - 1) * take
@@ -87,15 +88,14 @@ const BeersPage: Page = () => {
   }, [beersResponse.data?.beersConnection.edges])
 
   return useMemo(() => {
+    return (
+      <>
+        <NextSeo
+          title={`Марки и сорта пива`}
+          description={`Энциклопедия пива: марки и сорта`}
+        />
 
-  return (
-    <>
-      <NextSeo
-        title={`Марки и сорта пива`}
-        description={`Энциклопедия пива: марки и сорта`}
-      />
-
-      {/*beers.map((n) => {
+        {/*beers.map((n) => {
                   //return <BeerView key={n.id} beer={n}/>
                   return (
                   <p key={n.id}>
@@ -106,26 +106,25 @@ const BeersPage: Page = () => {
                   )
             })*/}
 
-      <BeersPageView
-        beers={beers}
-        pagination={{
-          limit: beersResponse.variables?.first || 0,
-          page,
-          total: beersResponse.data?.beersConnection.aggregate.count || 0,
-        }}
-      />
-    </>
-  )
-   },[beers, beersResponse.data?.beersConnection.aggregate.count, beersResponse.variables?.first, page]
+        <BeersPageView
+          beers={beers}
+          pagination={{
+            limit: beersResponse.variables?.first || 0,
+            page,
+            total: beersResponse.data?.beersConnection.aggregate.count || 0,
+          }}
+        />
+      </>
     )
-
+  }, [
+    beers,
+    beersResponse.data?.beersConnection.aggregate.count,
+    beersResponse.variables?.first,
+    page,
+  ])
 }
 
-BeersPage.getInitialProps = async (context) => {
-  const { apolloClient } = context
-
-  const qq = context.query as any
-
+BeersPage.getInitialProps = async ({ apolloClient, query }) => {
   const result = await apolloClient.query<BeersConnectionQuery>({
     query: BeersConnectionDocument,
 
@@ -134,11 +133,9 @@ BeersPage.getInitialProps = async (context) => {
      * иначе при рендеринге не будут получены данные из кеша и рендер будет пустой.
      */
     variables: {
-      ...getBeersVariables(qq),
+      ...getBeersVariables({ query }),
     },
   })
-
-
 
   return {
     statusCode: !result.data.beersConnection.edges.length ? 404 : undefined,
