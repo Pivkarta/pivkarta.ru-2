@@ -137,16 +137,19 @@ const BeersPage: Page = () => {
 }
 
 BeersPage.getInitialProps = async ({ apolloClient, query }) => {
-  const result = await apolloClient.query<BeersConnectionQuery>({
+  const { variables } = getBeersVariables({ query })
+
+  const result = await apolloClient.query<
+    BeersConnectionQuery,
+    BeersConnectionQueryVariables
+  >({
     query: BeersConnectionDocument,
 
     /**
      * Важно, чтобы все переменные запроса серверные и фронтовые совпадали,
      * иначе при рендеринге не будут получены данные из кеша и рендер будет пустой.
      */
-    variables: {
-      ...getBeersVariables({ query }),
-    },
+    variables,
   })
 
   return {
