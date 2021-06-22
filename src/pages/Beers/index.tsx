@@ -4,6 +4,7 @@ import { ParsedUrlQuery } from 'querystring'
 import React, { useMemo } from 'react'
 import {
   //BeerOrderByInput,
+  BeerWhereInput,
   BeersConnectionDocument,
   BeersConnectionQuery,
   BeersConnectionQueryVariables,
@@ -31,12 +32,23 @@ export const getBeersVariables = ({
   const page =
     (query.page && typeof query.page === 'string' && parseInt(query.page)) || 0
 
+  const color = query.color && typeof query.color === 'string' && query.color
+
+  //console.log('color', color)
+
+  const where: BeerWhereInput = {}
+
+  if (color) {
+    where['color'] = color
+  }
+
   if (page > 1) {
     skip = (page - 1) * take
   }
 
   const variables: BeersConnectionQueryVariables = {
     first: take,
+    where: where,
     skip,
   }
 
