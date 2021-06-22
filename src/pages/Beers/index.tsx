@@ -12,6 +12,7 @@ import {
 } from 'src/modules/gql/generated'
 import { Page } from 'src/pages/_App/interfaces'
 import BeersPageView from './View'
+import { BeerColor } from './View/ColorFilter/interfaces'
 import { BeersPageViewProps } from './View/interfaces'
 
 /**
@@ -24,6 +25,7 @@ export const getBeersVariables = ({
 }): {
   variables: BeersConnectionQueryVariables
   page: number
+  color: BeerColor
 } => {
   let skip: number | undefined
 
@@ -32,7 +34,17 @@ export const getBeersVariables = ({
   const page =
     (query.page && typeof query.page === 'string' && parseInt(query.page)) || 0
 
-  const color = query.color && typeof query.color === 'string' && query.color
+  const color: BeerColor =
+    query.color &&
+    typeof query.color === 'string' &&
+    query.color &&
+    // Обязательно проверяем и на значение, так как у нас в типе жестко перечислены варианты.
+    // Иначе будет ошибка тайпскрипта
+    (query.color === 'Светлое' ||
+      query.color === 'Темное' ||
+      query.color === 'Полутемное')
+      ? query.color
+      : undefined
 
   //console.log('color', color)
 
@@ -55,13 +67,14 @@ export const getBeersVariables = ({
   return {
     variables,
     page,
+    color,
   }
 }
 
 const BeersPage: Page = () => {
   const router = useRouter()
 
-  const { variables, page } = useMemo(() => {
+  const { variables, page, color } = useMemo(() => {
     return getBeersVariables({
       query: router.query,
     })
@@ -125,6 +138,10 @@ const BeersPage: Page = () => {
             page,
             total: beersResponse.data?.beersConnection.aggregate.count || 0,
           }}
+          /**
+           * Передаем цвет из запроса, чтобы пробросить его в фильтр
+           */
+          color={color}
         />
       </>
     )
@@ -133,6 +150,7 @@ const BeersPage: Page = () => {
     beersResponse.data?.beersConnection.aggregate.count,
     beersResponse.variables?.first,
     page,
+    color,
   ])
 }
 
