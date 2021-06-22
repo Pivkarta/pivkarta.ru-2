@@ -1,3 +1,5 @@
+import uiTheme from '@prisma-cms/ui/dist/theme'
+
 /**
  * Размеры экранов
  */
@@ -31,6 +33,9 @@ const theme = {
   colors,
   background,
   breakpoints,
+  ui: {
+    ...uiTheme.ui,
+  },
 }
 
 export type Theme = typeof theme
