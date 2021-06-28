@@ -13,6 +13,7 @@ import {
 import { Page } from 'src/pages/_App/interfaces'
 import BeersPageView from './View'
 import { BeerColor } from './View/ColorFilter/interfaces'
+import { BeerFiltered } from './View/FilteredFilter/interfaces'
 import { BeersPageViewProps } from './View/interfaces'
 
 /**
@@ -26,6 +27,7 @@ export const getBeersVariables = ({
   variables: BeersConnectionQueryVariables
   page: number
   color: BeerColor
+  filtered: BeerFiltered
 } => {
   let skip: number | undefined
 
@@ -48,10 +50,30 @@ export const getBeersVariables = ({
 
   //console.log('color', color)
 
+  const filtered: BeerFiltered =
+    query.filtered &&
+    typeof query.filtered === 'string' &&
+    query.filtered &&
+    // Обязательно проверяем и на значение, так как у нас в типе жестко перечислены варианты.
+    // Иначе будет ошибка тайпскрипта
+    (query.filtered === 'Фильтрованное' || query.filtered === 'Нефильтрованное')
+      ? query.filtered
+      : undefined
+
+  //console.log('filtered', filtered)
+
   const where: BeerWhereInput = {}
 
   if (color) {
-    where['color'] = color
+    where.color = color
+  }
+
+  if (filtered) {
+    where.filtered = false
+
+    if (filtered == 'Фильтрованное') {
+      where.filtered = true
+    }
   }
 
   if (page > 1) {
@@ -68,13 +90,14 @@ export const getBeersVariables = ({
     variables,
     page,
     color,
+    filtered,
   }
 }
 
 const BeersPage: Page = () => {
   const router = useRouter()
 
-  const { variables, page, color } = useMemo(() => {
+  const { variables, page, color, filtered } = useMemo(() => {
     return getBeersVariables({
       query: router.query,
     })
@@ -112,6 +135,8 @@ const BeersPage: Page = () => {
     return beers
   }, [beersResponse.data?.beersConnection.edges])
 
+  //console.log('filtered_1', filtered)
+
   return useMemo(() => {
     return (
       <>
@@ -142,6 +167,10 @@ const BeersPage: Page = () => {
            * Передаем цвет из запроса, чтобы пробросить его в фильтр
            */
           color={color}
+          /**
+           * Передаем фильтрацию из запроса, чтобы пробросить его в фильтр
+           */
+          filtered={filtered}
         />
       </>
     )
@@ -151,6 +180,7 @@ const BeersPage: Page = () => {
     beersResponse.variables?.first,
     page,
     color,
+    filtered,
   ])
 }
 

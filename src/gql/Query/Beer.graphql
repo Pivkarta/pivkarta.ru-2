@@ -51,4 +51,5 @@ fragment beer on Beer {
   created_at
   gallery
   pasteurized
+  filtered
 }
