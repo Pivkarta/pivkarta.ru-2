@@ -7,7 +7,7 @@ type BeerColorSelectOption = Option<NonNullable<BeerColor | ''>>
 
 const options: BeerColorSelectOption[] = [
   {
-    label: 'Выберите из списка',
+    label: 'Любой цвет',
     value: '',
   },
   {
@@ -92,6 +92,7 @@ export const BeersColorFilter: React.FC<BeersColorFilterProps> = ({
           onChange={onChange}
           value={value}
           disabled={loading}
+          placeholder={'Выберите цвет'}
           // https://stackoverflow.com/questions/61290173/react-select-how-do-i-resolve-warning-prop-id-did-not-match
           instanceId="beer-select"
         />

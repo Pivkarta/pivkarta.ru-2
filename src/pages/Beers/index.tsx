@@ -14,6 +14,7 @@ import { Page } from 'src/pages/_App/interfaces'
 import BeersPageView from './View'
 import { BeerColor } from './View/ColorFilter/interfaces'
 import { BeerFiltered } from './View/FilteredFilter/interfaces'
+import { BeerSearch } from './View/SearchFilter/interfaces'
 import { BeersPageViewProps } from './View/interfaces'
 
 /**
@@ -28,6 +29,7 @@ export const getBeersVariables = ({
   page: number
   color: BeerColor
   filtered: BeerFiltered
+  search: BeerSearch
 } => {
   let skip: number | undefined
 
@@ -60,6 +62,11 @@ export const getBeersVariables = ({
       ? query.filtered
       : undefined
 
+  const search: BeerSearch =
+    query.search && typeof query.search === 'string' && query.search
+      ? query.search
+      : undefined
+
   //console.log('filtered', filtered)
 
   const where: BeerWhereInput = {}
@@ -74,6 +81,10 @@ export const getBeersVariables = ({
     if (filtered == 'Фильтрованное') {
       where.filtered = true
     }
+  }
+
+  if (search) {
+    where.name = search
   }
 
   if (page > 1) {
@@ -91,13 +102,14 @@ export const getBeersVariables = ({
     page,
     color,
     filtered,
+    search,
   }
 }
 
 const BeersPage: Page = () => {
   const router = useRouter()
 
-  const { variables, page, color, filtered } = useMemo(() => {
+  const { variables, page, color, filtered, search } = useMemo(() => {
     return getBeersVariables({
       query: router.query,
     })
@@ -171,6 +183,10 @@ const BeersPage: Page = () => {
            * Передаем фильтрацию из запроса, чтобы пробросить его в фильтр
            */
           filtered={filtered}
+          /**
+           * Передаем поисковую строку из запроса, чтобы пробросить его в фильтр
+           */
+          search={search}
         />
       </>
     )
@@ -181,6 +197,7 @@ const BeersPage: Page = () => {
     page,
     color,
     filtered,
+    search,
   ])
 }
 
