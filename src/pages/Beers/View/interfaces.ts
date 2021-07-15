@@ -13,5 +13,5 @@ export type BeersPageViewProps = {
 
   filtered: BeersFilteredFilterProps['filtered']
 
-  search: BeersSearchFilterProps
+  search: BeersSearchFilterProps['search']
 }

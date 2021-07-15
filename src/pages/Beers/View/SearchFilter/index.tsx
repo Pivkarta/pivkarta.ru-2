@@ -1,6 +1,7 @@
-import React, { useMemo } from 'react'
+import React, { ChangeEvent, useCallback, useMemo } from 'react'
 import { useRouter } from 'next/router'
-//import { BeersSearchFilterProps } from './interfaces'
+import { BeersSearchFilterProps } from './interfaces'
+import TextField from '@prisma-cms/ui/dist/form/TextField'
 
 /*
 export const BeersSearchFilter: React.FC<BeersSearchFilterProps> = ({
@@ -8,28 +9,42 @@ export const BeersSearchFilter: React.FC<BeersSearchFilterProps> = ({
 }) => {}
 */
 
-export const BeersSearchFilter = () => {
+export const BeersSearchFilter: React.FC<BeersSearchFilterProps> = ({
+  search,
+}) => {
   const router = useRouter()
 
-  //const onChange = useCallback(
+  const onChange = useCallback(
+    (event: ChangeEvent<HTMLInputElement>) => {
+      const value = event.target.value
 
-  //const query = {
-  //  ...router.query,
-  //}
+      const query = {
+        ...router.query,
+      }
 
-  //const search = query.search
+      if (value) {
+        query.search = value
+      } else {
+        delete query.search
+      }
 
-  //)
+      router.push({
+        query,
+      })
+    },
+    [router]
+  )
 
   return useMemo(() => {
     return (
       <>
-        <input
+        <TextField
           type="text"
-          value={router.query.search}
+          value={search || ''}
           placeholder={'Название пива'}
+          onChange={onChange}
         />
       </>
     )
-  }, [router.query.search])
+  }, [search, onChange])
 }

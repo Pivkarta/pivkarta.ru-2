@@ -1,4 +1,5 @@
 import { createGlobalStyle } from 'styled-components'
+import { SelectStyled } from '@prisma-cms/ui/dist/form/Select/styles'
 
 export const GlobalStyle = createGlobalStyle`
 
@@ -44,5 +45,17 @@ export const GlobalStyle = createGlobalStyle`
   h3 {
     font-size: 1.2rem;
   }
+
+  /* 
+    Уравниваем стили для селектов
+  */
+  ${SelectStyled} {
+      margin-top: 16px;
+
+      .RSelect__control {
+        border: 2px solid #DFE5EA;
+        border-radius: 6px;
+      }
+    }
 
 `

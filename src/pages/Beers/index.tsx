@@ -84,7 +84,8 @@ export const getBeersVariables = ({
   }
 
   if (search) {
-    where.name = search
+    // eslint-disable-next-line @typescript-eslint/camelcase
+    where.name_contains = search
   }
 
   if (page > 1) {
@@ -204,21 +205,20 @@ const BeersPage: Page = () => {
 BeersPage.getInitialProps = async ({ apolloClient, query }) => {
   const { variables } = getBeersVariables({ query })
 
-  const result = await apolloClient.query<
-    BeersConnectionQuery,
-    BeersConnectionQueryVariables
-  >({
-    query: BeersConnectionDocument,
+  await apolloClient.query<BeersConnectionQuery, BeersConnectionQueryVariables>(
+    {
+      query: BeersConnectionDocument,
 
-    /**
-     * Важно, чтобы все переменные запроса серверные и фронтовые совпадали,
-     * иначе при рендеринге не будут получены данные из кеша и рендер будет пустой.
-     */
-    variables,
-  })
+      /**
+       * Важно, чтобы все переменные запроса серверные и фронтовые совпадали,
+       * иначе при рендеринге не будут получены данные из кеша и рендер будет пустой.
+       */
+      variables,
+    }
+  )
 
   return {
-    statusCode: !result.data.beersConnection.edges.length ? 404 : undefined,
+    // statusCode: !result.data.beersConnection.edges.length ? 404 : undefined,
   }
 }
 
