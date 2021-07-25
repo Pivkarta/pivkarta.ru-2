@@ -52,4 +52,6 @@ fragment beer on Beer {
   gallery
   pasteurized
   filtered
+  region
+  editor_content
 }

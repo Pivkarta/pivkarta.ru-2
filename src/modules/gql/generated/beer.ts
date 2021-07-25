@@ -10,7 +10,7 @@
 import * as Types from './types';
 
 import { gql } from '@apollo/client';
-export type BeerFragment = { __typename?: 'Beer', id: string, beer_id?: Types.Maybe<number>, uri?: Types.Maybe<string>, name?: Types.Maybe<string>, url_name?: Types.Maybe<string>, createdAt: globalThis.Date, updatedAt: globalThis.Date, description?: Types.Maybe<string>, country?: Types.Maybe<string>, image?: Types.Maybe<string>, manufacturer?: Types.Maybe<string>, manufacture_years?: Types.Maybe<string>, container?: Types.Maybe<number>, alcohol?: Types.Maybe<string>, wort_percent?: Types.Maybe<string>, components?: Types.Maybe<string>, bitter?: Types.Maybe<number>, type_id?: Types.Maybe<number>, color?: Types.Maybe<string>, is_request?: Types.Maybe<number>, created_at?: Types.Maybe<number>, gallery?: Types.Maybe<globalThis.Record<string, any> | globalThis.Array<any>>, pasteurized?: Types.Maybe<boolean>, filtered?: Types.Maybe<boolean> };
+export type BeerFragment = { __typename?: 'Beer', id: string, beer_id?: Types.Maybe<number>, uri?: Types.Maybe<string>, name?: Types.Maybe<string>, url_name?: Types.Maybe<string>, createdAt: globalThis.Date, updatedAt: globalThis.Date, description?: Types.Maybe<string>, country?: Types.Maybe<string>, image?: Types.Maybe<string>, manufacturer?: Types.Maybe<string>, manufacture_years?: Types.Maybe<string>, container?: Types.Maybe<number>, alcohol?: Types.Maybe<string>, wort_percent?: Types.Maybe<string>, components?: Types.Maybe<string>, bitter?: Types.Maybe<number>, type_id?: Types.Maybe<number>, color?: Types.Maybe<string>, is_request?: Types.Maybe<number>, created_at?: Types.Maybe<number>, gallery?: Types.Maybe<globalThis.Record<string, any> | globalThis.Array<any>>, pasteurized?: Types.Maybe<boolean>, filtered?: Types.Maybe<boolean>, region?: Types.Maybe<string>, editor_content?: Types.Maybe<globalThis.Record<string, any> | globalThis.Array<any>> };
 
 export const BeerFragmentDoc = gql`
     fragment beer on Beer {
@@ -38,5 +38,7 @@ export const BeerFragmentDoc = gql`
   gallery
   pasteurized
   filtered
+  region
+  editor_content
 }
     `;
