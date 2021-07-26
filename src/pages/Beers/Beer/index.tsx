@@ -97,6 +97,11 @@ const BeerPage = () => {
       break
   }
 
+  const blocks =
+    beerinfo.content &&
+    !Array.isArray(beerinfo.content) &&
+    beerinfo.content?.blocks
+
   return (
     <>
       <Paper style={{ padding: '15px' }}>
@@ -208,7 +213,7 @@ const BeerPage = () => {
       <Paper style={{ padding: '15px', marginTop: '15px' }}>
         <h2>Описание пива {beerinfo.name}</h2>
 
-        {beerinfo.content?.blocks.map(
+        {blocks?.map(
           (
             contentPart: { text: string | null | undefined },
             index: React.Key | null | undefined
