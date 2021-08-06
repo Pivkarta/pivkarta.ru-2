@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useEffect, useMemo, useState } from 'react'
 import { useRouter } from 'next/router'
 import { Paper, Grid } from '@material-ui/core'
 import { imageFormats } from 'src/helpers/imageFormats'
@@ -17,7 +17,6 @@ import { TableBold } from './View/styles'
 
 import BeerPlaces from './BeerPlaces'
 
-//import Lightbox from 'react-lightbox-component'
 //import { Fancybox } from '@fancyapps/ui'
 //import '@fancyapps/ui/dist/fancybox.css'
 
@@ -26,6 +25,14 @@ import {
   BeerInfoQueryVariables,
 } from 'src/modules/gql/generated'
 //import { CenterFocusStrong } from '@material-ui/icons'
+
+import 'react-lightbox-component/build/css/index.css'
+
+// import Lightbox from 'react-lightbox-component'
+import dynamic from 'next/dynamic'
+import { LightBoxImage } from 'react-lightbox-component'
+
+const Lightbox = dynamic(() => import('react-lightbox-component'))
 
 const getVariables = (beerid: number): BeerInfoQueryVariables => {
   return {
@@ -126,6 +133,40 @@ const BeerPage = () => {
   }
 
   //console.log('images', images)
+
+  /**
+   * Создаем флаг того, что компонент загружен во фронте
+   */
+  const [loaded, loadedSetter] = useState(false)
+
+  /**
+   * Этот метод сробатывает только во фронте, поэтому он выставит флаг только там
+   */
+  useEffect(() => {
+    loadedSetter(true)
+  }, [])
+
+  const lightbox = useMemo(() => {
+    /**
+     * Если не в браузере, то не возвращаем ничего.
+     * Так приходится делать, потому что react-lightbox-component не умеет в серверный рендеринг
+     * и его приходится подгружать динамически.
+     * При этом, если рендерить сразу без проверки (точнее без дополнительного шага через апдейт стейта),
+     * то реакт ругается на расхождение серверной и фронтовой версии верстки.
+     */
+    if (!loaded) {
+      return null
+    }
+
+    const images: LightBoxImage[] = [
+      {
+        src:
+          'https://pivkarta.ru/images/slider_thumb/13/91/06/86/12/70/75/f3dbcf201757c0bd5eb92876d5133a45.jpg',
+      },
+    ]
+
+    return <Lightbox images={images} />
+  }, [loaded])
 
   return (
     <>
@@ -273,16 +314,9 @@ const BeerPage = () => {
           </p>
         </Fancybox>
 */}
-        {/*
-        <Lightbox
-          images={[
-            {
-              src:
-                'https://pivkarta.ru/images/slider_thumb/13/91/06/86/12/70/75/f3dbcf201757c0bd5eb92876d5133a45.jpg',
-            },
-          ]}
-        />
- */}
+
+        {lightbox}
+
         <ImageList cols={4} rowHeight={450}>
           {beerinfo.gallery?.map(
             // eslint-disable-next-line @typescript-eslint/no-explicit-any
