@@ -14,7 +14,12 @@ import ImageListItem from '@material-ui/core/ImageListItem'
 //import beerSvg from './View/img/beer-solid.svg'
 
 import { TableBold } from './View/styles'
+
+import BeerPlaces from './BeerPlaces'
+
 //import Lightbox from 'react-lightbox-component'
+//import { Fancybox } from '@fancyapps/ui'
+//import '@fancyapps/ui/dist/fancybox.css'
 
 import {
   useBeerInfoQuery,
@@ -101,6 +106,26 @@ const BeerPage = () => {
     beerinfo.content &&
     !Array.isArray(beerinfo.content) &&
     beerinfo.content?.blocks
+
+  const images: {
+    src: string
+    title?: string | null
+    description?: string | null
+  }[] = []
+
+  if (Array.isArray(beerinfo.gallery)) {
+    beerinfo.gallery.forEach((n: string) => {
+      if (n && typeof n === 'string') {
+        images.push({
+          src: 'https://pivkarta.ru/images/big/' + n,
+          title: 'Пиво ' + beerinfo.name,
+          description: 'Фото пива ' + beerinfo.name,
+        })
+      }
+    })
+  }
+
+  //console.log('images', images)
 
   return (
     <>
@@ -225,6 +250,39 @@ const BeerPage = () => {
       <Paper style={{ padding: '15px', marginTop: '15px' }}>
         <h2>Фотографии пива {beerinfo.name}</h2>
 
+        {/**
+ *
+
+        <Fancybox options={{ infinite: false }}>
+          <p>
+            <button
+              data-fancybox="gallery"
+              data-src="https://lipsum.app/id/1/800x600"
+              className="button button--secondary"
+            >
+              Image #1
+            </button>
+
+            <button
+              data-fancybox="gallery"
+              data-src="https://lipsum.app/id/2/800x600"
+              className="button button--secondary"
+            >
+              Image #2
+            </button>
+          </p>
+        </Fancybox>
+*/}
+        {/*
+        <Lightbox
+          images={[
+            {
+              src:
+                'https://pivkarta.ru/images/slider_thumb/13/91/06/86/12/70/75/f3dbcf201757c0bd5eb92876d5133a45.jpg',
+            },
+          ]}
+        />
+ */}
         <ImageList cols={4} rowHeight={450}>
           {beerinfo.gallery?.map(
             // eslint-disable-next-line @typescript-eslint/no-explicit-any
@@ -242,6 +300,8 @@ const BeerPage = () => {
           )}
         </ImageList>
       </Paper>
+
+      <BeerPlaces beerid={beerId} />
     </>
   )
 }

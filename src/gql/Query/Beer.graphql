@@ -27,6 +27,26 @@ query beersConnection(
   }
 }
 
+query placesbeer($where: PlaceWhereInput, $center: CoordsInput) {
+  mapPlacesConnection(
+    first: 10
+    # Условие по пиву
+    where: $where
+    # сортировать от координат
+    center: $center
+  ) {
+    edges {
+      node {
+        id
+        uri
+        place_id
+        name
+        image
+      }
+    }
+  }
+}
+
 fragment beer on Beer {
   id
   beer_id

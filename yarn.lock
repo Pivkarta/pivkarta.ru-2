@@ -1429,6 +1429,11 @@
     minimatch "^3.0.4"
     strip-json-comments "^3.1.1"
 
+"@fancyapps/ui@^4.0.0-alpha.4":
+  version "4.0.0-alpha.4"
+  resolved "https://registry.yarnpkg.com/@fancyapps/ui/-/ui-4.0.0-alpha.4.tgz#db977bfd8e0fae2840d1738cc28352a670dfa98a"
+  integrity sha512-tvt6kjJDK6lD4R1hJ81xftuQTDmCKnS2uCI3Jqm+p0vqJyDfjIzE+CXfE7RRe7pfHgG9qqVdDBQUjxHKWUUhCw==
+
 "@graphql-codegen/add@^2.0.1", "@graphql-codegen/add@^2.0.2":
   version "2.0.2"
   resolved "https://registry.yarnpkg.com/@graphql-codegen/add/-/add-2.0.2.tgz#4acbb95be9ebb859a3cebfe7132fdf49ffe06dd8"
