@@ -1,4 +1,5 @@
-import React, { useEffect, useMemo, useState } from 'react'
+//import React, { useEffect, useMemo, useState } from 'react'
+import React, { useMemo, useState } from 'react'
 import { useRouter } from 'next/router'
 import { Paper, Grid } from '@material-ui/core'
 import { imageFormats } from 'src/helpers/imageFormats'
@@ -26,13 +27,14 @@ import {
 } from 'src/modules/gql/generated'
 //import { CenterFocusStrong } from '@material-ui/icons'
 
-import 'react-lightbox-component/build/css/index.css'
+//import 'react-lightbox-component/build/css/index.css'
 
 // import Lightbox from 'react-lightbox-component'
-import dynamic from 'next/dynamic'
-import { LightBoxImage } from 'react-lightbox-component'
+//import dynamic from 'next/dynamic'
+//import { LightBoxImage } from 'react-lightbox-component'
+import FsLightbox from 'fslightbox-react'
 
-const Lightbox = dynamic(() => import('react-lightbox-component'))
+//const Lightbox = dynamic(() => import('react-lightbox-component'))
 
 const getVariables = (beerid: number): BeerInfoQueryVariables => {
   return {
@@ -137,36 +139,100 @@ const BeerPage = () => {
   /**
    * Создаем флаг того, что компонент загружен во фронте
    */
-  const [loaded, loadedSetter] = useState(false)
+  //const [loaded, loadedSetter] = useState(false)
 
   /**
    * Этот метод сробатывает только во фронте, поэтому он выставит флаг только там
    */
-  useEffect(() => {
-    loadedSetter(true)
-  }, [])
+  //useEffect(() => {
+  //  loadedSetter(true)
+  //}, [])
 
-  const lightbox = useMemo(() => {
-    /**
-     * Если не в браузере, то не возвращаем ничего.
-     * Так приходится делать, потому что react-lightbox-component не умеет в серверный рендеринг
-     * и его приходится подгружать динамически.
-     * При этом, если рендерить сразу без проверки (точнее без дополнительного шага через апдейт стейта),
-     * то реакт ругается на расхождение серверной и фронтовой версии верстки.
-     */
-    if (!loaded) {
+  //const lightbox = useMemo(() => {
+  /**
+   * Если не в браузере, то не возвращаем ничего.
+   * Так приходится делать, потому что react-lightbox-component не умеет в серверный рендеринг
+   * и его приходится подгружать динамически.
+   * При этом, если рендерить сразу без проверки (точнее без дополнительного шага через апдейт стейта),
+   * то реакт ругается на расхождение серверной и фронтовой версии верстки.
+   */
+  //if (!loaded) {
+  //  return null
+  //}
+
+  //const images: LightBoxImage[] = [
+  //  {
+  //    src:
+  //      'https://pivkarta.ru/images/slider_thumb/13/91/06/86/12/70/75/f3dbcf201757c0bd5eb92876d5133a45.jpg',
+  //  },
+  //]
+
+  //return <Lightbox images={images} />
+  //}, [loaded])
+
+  const [lightboxController, setLightboxController] = useState({
+    toggler: false,
+    slide: 1,
+  })
+
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  function openLightboxOnSlide(number: number) {
+    setLightboxController({
+      toggler: !lightboxController.toggler,
+      slide: number,
+    })
+  }
+
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  const images2: string | string[] = []
+
+  if (Array.isArray(beerinfo.gallery)) {
+    beerinfo.gallery.forEach((n: string) => {
+      if (n && typeof n === 'string') {
+        images2.push('https://pivkarta.ru/images/big/' + n)
+      }
+    })
+  }
+
+  //console.log('images2', images2)
+
+  const beerphotos = useMemo(() => {
+    if (!lightboxController) {
       return null
     }
 
-    const images: LightBoxImage[] = [
-      {
-        src:
-          'https://pivkarta.ru/images/slider_thumb/13/91/06/86/12/70/75/f3dbcf201757c0bd5eb92876d5133a45.jpg',
-      },
-    ]
-
-    return <Lightbox images={images} />
-  }, [loaded])
+    return (
+      <ImageList cols={4} rowHeight={450}>
+        {beerinfo.gallery?.map(
+          // eslint-disable-next-line @typescript-eslint/no-explicit-any
+          (item: any | undefined, index: number) => (
+            <ImageListItem key={index}>
+              <img
+                // eslint-disable-next-line react/jsx-no-bind
+                onClick={() => openLightboxOnSlide(++index)}
+                srcSet={`${
+                  'https://pivkarta.ru/' + imageFormats(item, 'slider_thumb')
+                }`}
+                alt={beerinfo.name ? beerinfo.name : ''}
+                loading="lazy"
+              />
+            </ImageListItem>
+          )
+        )}
+        <FsLightbox
+          toggler={lightboxController.toggler}
+          sources={images2}
+          slide={lightboxController.slide}
+        />
+      </ImageList>
+    )
+  }, [
+    beerinfo.gallery,
+    beerinfo.name,
+    images2,
+    lightboxController,
+    openLightboxOnSlide,
+  ])
 
   return (
     <>
@@ -315,24 +381,36 @@ const BeerPage = () => {
         </Fancybox>
 */}
 
-        {lightbox}
+        {/*lightbox*/}
 
+        {beerphotos}
+
+        {/*
         <ImageList cols={4} rowHeight={450}>
           {beerinfo.gallery?.map(
             // eslint-disable-next-line @typescript-eslint/no-explicit-any
             (item: any | undefined, index: React.Key | null | undefined) => (
-              <ImageListItem key={index}>
-                <img
-                  srcSet={`${
-                    'https://pivkarta.ru/' + imageFormats(item, 'slider_thumb')
-                  }`}
-                  alt={beerinfo.name ? beerinfo.name : ''}
-                  loading="lazy"
+              <>
+                <ImageListItem key={index}>
+                  <img
+                    onClick={() => setToggler(!toggler)}
+                    srcSet={`${
+                      'https://pivkarta.ru/' +
+                      imageFormats(item, 'slider_thumb')
+                    }`}
+                    alt={beerinfo.name ? beerinfo.name : ''}
+                    loading="lazy"
+                  />
+                </ImageListItem>
+                <FsLightbox
+                  toggler={toggler}
+                  sources={['https://i.imgur.com/fsyrScY.jpg']}
                 />
-              </ImageListItem>
+              </>
             )
           )}
         </ImageList>
+*/}
       </Paper>
 
       <BeerPlaces beerid={beerId} />
