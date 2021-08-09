@@ -3260,6 +3260,13 @@
   dependencies:
     "@types/node" "*"
 
+"@types/fslightbox-react@^1.4.1":
+  version "1.4.1"
+  resolved "https://registry.yarnpkg.com/@types/fslightbox-react/-/fslightbox-react-1.4.1.tgz#d17dc961fc0645c3e4a610d98ca664da73fd7346"
+  integrity sha512-x2dbQCbPfg9vyHYb9w3Xcx2WktlJFenNwYjpAthLrkCa7HRadSVwh/rJDkhabnGyznNoAzIC5t6yqXxL8Haw2A==
+  dependencies:
+    "@types/react" "*"
+
 "@types/glob-base@^0.3.0":
   version "0.3.0"
   resolved "https://registry.yarnpkg.com/@types/glob-base/-/glob-base-0.3.0.tgz#a581d688347e10e50dd7c17d6f2880a10354319d"
